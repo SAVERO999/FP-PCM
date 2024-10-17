@@ -33,8 +33,9 @@ def process_image(image):
     
     return img, img_convolved
 
-# Inisialisasi variabel global untuk gambar
-uploaded_image = None
+if 'uploaded_image' not in st.session_state:
+    st.session_state.uploaded_image = None
+
 
 with st.sidebar:
     selected = option_menu("FP", ["Home", "Encyclopedia", "open data", ""], default_index=0, key="menu1")
@@ -107,23 +108,37 @@ if selected == "open data":
     uploaded_file = st.file_uploader("Upload Gambar", type=["jpeg", "jpg", "png"])
 
     if uploaded_file is not None:
-        # Membaca gambar yang di-upload
-        im = io.imread(uploaded_file)
+        # Simpan file di session_state agar bisa diakses di bagian lain
+        st.session_state.uploaded_image = io.imread(uploaded_file)
 
         # Proses gambar: transformasi dari RGB ke grayscale, juga mengembalikan kernel
-        img_gray, weights = process_image(im)
+        img_gray, weights = process_image(st.session_state.uploaded_image)
         
         # Menampilkan dua gambar: gambar asli dan hasil grayscale
         st.markdown("<h3 style='text-align: center;'>Gambar Asli</h3>", unsafe_allow_html=True)
-        st.image(im, caption="Gambar Asli", use_column_width=True)
-        st.write("Tipe gambar asli:", im.dtype)
-        st.write("Ukuran gambar asli:", im.shape)
+        st.image(st.session_state.uploaded_image, caption="Gambar Asli", use_column_width=True)
+        st.write("Tipe gambar asli:", st.session_state.uploaded_image.dtype)
+        st.write("Ukuran gambar asli:", st.session_state.uploaded_image.shape)
         
         st.markdown("<h3 style='text-align: center;'>Gambar Grayscale</h3>", unsafe_allow_html=True)
         st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
         st.write("Tipe gambar grayscale:", img_gray.dtype)
         st.write("Ukuran gambar grayscale:", img_gray.shape)
 
-        # Jika nanti kamu butuh menampilkan atau menggunakan kernel weights, kamu bisa menggunakannya
-        # Contoh untuk menampilkan kernel weights jika diperlukan di tahap berikutnya
-        # st.write("Kernel weights:", weights)
+if selected == "histogram":
+    st.markdown("<h1 style='text-align: center; color: blue;'>📊 Histogram</h1>", unsafe_allow_html=True)
+
+    if st.session_state.uploaded_image is not None:
+        # Menghitung histogram untuk gambar grayscale
+        img_gray, _ = process_image(st.session_state.uploaded_image)
+        
+        histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
+        
+        # Plot histogram
+        fig, ax = plt.subplots()
+        ax.plot(histogram)
+        ax.set_xlabel('Gray Value')
+        ax.set_ylabel('Number of Pixels')
+        ax.set_title('Histogram of Gray Values')
+
+        st.pyplot(fig)  # Menampilkan histogram di Streamlit
