@@ -2,10 +2,7 @@ streamlit
 streamlit_option_menu 
 matplotlib
 numpy 
-scikit-image
-skimage 
-ipywidgets
-skimage 
+ipywidgets 
 pandas
 math 
 
