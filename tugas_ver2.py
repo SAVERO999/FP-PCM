@@ -11,17 +11,12 @@ from skimage import io, img_as_float
 from skimage import morphology
 from pandas import DataFrame
 from math import log10
-import seaborn as sns
-import plotly.express as px
 from skimage import filters, measure
 from skimage.measure import label, regionprops, regionprops_table
 from skimage.transform import rotate
 from skimage.draw import ellipse
 import math
 import pandas as pd
-import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
 from skimage import color, img_as_ubyte, io
 from scipy.ndimage import convolve
 
