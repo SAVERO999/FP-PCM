@@ -43,19 +43,19 @@ if selected == "Home":
     st.title('Project FP Kelompok 2')
     st.subheader("Anggota kelompok")
     # Menampilkan 4 gambar di satu baris
-with col1:
-    st.image("wer.jpg", use_column_width=True, width=150)
-    st.markdown("<p style='color:black; text-align:center;'>Reynard Prastya Savero<br>5023211042</p>", unsafe_allow_html=True)
-
-    st.image("phase_separation.png", use_column_width=True, width=150)
-    st.markdown("<p style='color:black; text-align:center;'>Francisca Cindy Meilia Apsari<br>5023211021</p>", unsafe_allow_html=True)
-
-with col2:
-    st.image("cml-under-microscope-5b85803346e0fb005093fb84.jpg", use_column_width=True, width=150)
-    st.markdown("<p style='color:black; text-align:center;'>Mavelyn Clarissa Tania<br>5023211004</p>", unsafe_allow_html=True)
-
-    st.image("05keratosisPilaris020204-transformed.jpeg", use_column_width=True, width=150)
-    st.markdown("<p style='color:black; text-align:center;'>Narika Shinta<br>5023211057</p>", unsafe_allow_html=True);
+    with col1:
+        st.image("wer.jpg", use_column_width=True, width=150)
+        st.markdown("<p style='color:black; text-align:center;'>Reynard Prastya Savero<br>5023211042</p>", unsafe_allow_html=True)
+    
+        st.image("phase_separation.png", use_column_width=True, width=150)
+        st.markdown("<p style='color:black; text-align:center;'>Francisca Cindy Meilia Apsari<br>5023211021</p>", unsafe_allow_html=True)
+    
+    with col2:
+        st.image("cml-under-microscope-5b85803346e0fb005093fb84.jpg", use_column_width=True, width=150)
+        st.markdown("<p style='color:black; text-align:center;'>Mavelyn Clarissa Tania<br>5023211004</p>", unsafe_allow_html=True)
+    
+        st.image("05keratosisPilaris020204-transformed.jpeg", use_column_width=True, width=150)
+        st.markdown("<p style='color:black; text-align:center;'>Narika Shinta<br>5023211057</p>", unsafe_allow_html=True)
 
 elif selected == "Encyclopedia":
     selected1 = st.sidebar.radio("", ["Penyakit", "Informasi"], index=0)
