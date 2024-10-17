@@ -1,0 +1,17 @@
+streamlit 
+streamlit_option_menu 
+matplotlib.pyplot 
+matplotlib.gridspec 
+numpy 
+scipy.ndimage 
+skimage 
+ipywidgets
+skimage 
+pandas
+math 
+skimage.measure 
+skimage.transform 
+skimage.draw 
+
+
+
