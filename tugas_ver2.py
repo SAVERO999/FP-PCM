@@ -55,7 +55,7 @@ with col2:
     st.markdown("<p style='color:black; text-align:center;'>Mavelyn Clarissa Tania<br>5023211004</p>", unsafe_allow_html=True)
 
     st.image("05keratosisPilaris020204-transformed.jpeg", use_column_width=True, width=150)
-    st.markdown("<p style='color:black; text-align:center;'>Narika Shinta<br>5023211057</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:black; text-align:center;'>Narika Shinta<br>5023211057</p>", unsafe_allow_html=True);
 
 elif selected == "Encyclopedia":
     selected1 = st.sidebar.radio("", ["Penyakit", "Informasi"], index=0)
