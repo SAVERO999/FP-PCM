@@ -38,7 +38,7 @@ if 'uploaded_image' not in st.session_state:
 
 
 with st.sidebar:
-    selected = option_menu("FP", ["Home", "Encyclopedia", "open data", ""], default_index=0, key="menu1")
+    selected = option_menu("FP", ["Home", "Encyclopedia", "open data", "histogram"], default_index=0, key="menu1")
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
