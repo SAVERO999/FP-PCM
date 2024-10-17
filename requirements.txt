@@ -1,17 +1,13 @@
 streamlit 
 streamlit_option_menu 
-matplotlib.pyplot 
-matplotlib.gridspec 
+matplotlib
 numpy 
-scipy.ndimage 
+scipy
 skimage 
 ipywidgets
 skimage 
 pandas
 math 
-skimage.measure 
-skimage.transform 
-skimage.draw 
 
 
 
