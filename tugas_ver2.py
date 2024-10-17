@@ -131,7 +131,6 @@ if selected == "histogram":
     if st.session_state.uploaded_image is not None:
         # Menghitung histogram untuk gambar grayscale
         img_gray, _ = process_image(st.session_state.uploaded_image)
-        
         histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
         
         # Plot histogram
@@ -140,5 +139,4 @@ if selected == "histogram":
         ax.set_xlabel('Gray Value')
         ax.set_ylabel('Number of Pixels')
         ax.set_title('Histogram of Gray Values')
-
         st.pyplot(fig)  # Menampilkan histogram di Streamlit
