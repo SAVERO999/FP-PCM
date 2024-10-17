@@ -43,15 +43,19 @@ if selected == "Home":
     st.title('Project FP Kelompok 2')
     st.subheader("Anggota kelompok")
     # Menampilkan 4 gambar di satu baris
-    col1, col2 = st.columns(2)  # Membuat layout dengan dua kolom
+with col1:
+    st.image("wer.jpg", use_column_width=True, width=150)
+    st.markdown("<p style='color:black; text-align:center;'>Reynard Prastya Savero<br>5023211042</p>", unsafe_allow_html=True)
 
-    with col1:
-        st.image("wer.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
-        st.image("phase_separation.png", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+    st.image("phase_separation.png", use_column_width=True, width=150)
+    st.markdown("<p style='color:black; text-align:center;'>Francisca Cindy Meilia Apsari<br>5023211021</p>", unsafe_allow_html=True)
 
-    with col2:
-        st.image("cml-under-microscope-5b85803346e0fb005093fb84.jpg", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
-        st.image("05keratosisPilaris020204-transformed.jpeg", caption="\n Narika Shinta (5023211057)", use_column_width=True, width=150)
+with col2:
+    st.image("cml-under-microscope-5b85803346e0fb005093fb84.jpg", use_column_width=True, width=150)
+    st.markdown("<p style='color:black; text-align:center;'>Mavelyn Clarissa Tania<br>5023211004</p>", unsafe_allow_html=True)
+
+    st.image("05keratosisPilaris020204-transformed.jpeg", use_column_width=True, width=150)
+    st.markdown("<p style='color:black; text-align:center;'>Narika Shinta<br>5023211057</p>", unsafe_allow_html=True)
 
 elif selected == "Encyclopedia":
     selected1 = st.sidebar.radio("", ["Penyakit", "Informasi"], index=0)
@@ -87,7 +91,7 @@ elif selected == "Encyclopedia":
                 </p>'''
                 st.markdown(new_title, unsafe_allow_html=True)
         with col2:
-            if st.button('Apa penyebab dari Atopic Dermatitis?', key="button4"):
+            if st.button('Video', key="button4"):
                 content = """
                 <iframe id='Video 1' width='400' height='315' src='https://www.youtube.com/embed/XE7sX_gzlS0' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
                 """
