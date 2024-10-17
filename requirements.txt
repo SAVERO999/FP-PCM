@@ -5,8 +5,6 @@ numpy
 ipywidgets 
 pandas
 scipy
-io
-color
-img_as_ubyte
+
 
 
