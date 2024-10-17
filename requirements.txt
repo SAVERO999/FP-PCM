@@ -5,5 +5,5 @@ numpy
 ipywidgets 
 pandas
 scipy
-
+skimage
 
