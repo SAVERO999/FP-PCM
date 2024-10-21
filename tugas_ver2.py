@@ -49,11 +49,11 @@ if selected == "Home":
         st.image("wer.jpg", use_column_width=True, width=150)
         st.markdown("<p style='color:black; text-align:center;'>Reynard Prastya Savero<br>5023211042</p>", unsafe_allow_html=True)
     
-        st.image("phase_separation.png", use_column_width=True, width=150)
+        st.image("IMG_2104.JPEG", use_column_width=True, width=150)
         st.markdown("<p style='color:black; text-align:center;'>Francisca Cindy Meilia Apsari<br>5023211021</p>", unsafe_allow_html=True)
     
     with col2:
-        st.image("cml-under-microscope-5b85803346e0fb005093fb84.jpg", use_column_width=True, width=150)
+        st.image("file.png", use_column_width=True, width=150)
         st.markdown("<p style='color:black; text-align:center;'>Mavelyn Clarissa Tania<br>5023211004</p>", unsafe_allow_html=True)
     
         st.image("05keratosisPilaris020204-transformed.jpeg", use_column_width=True, width=150)
