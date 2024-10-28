@@ -46,7 +46,7 @@ if selected == "Home":
     # Menampilkan 4 gambar di satu baris
     col1, col2 = st.columns(2)
     with col1:
-        st.image("wer.jpg", use_column_width=True, width=150)
+        st.image("IMG_2267.jpg", use_column_width=True, width=150)
         st.markdown("<p style='color:black; text-align:center;'>Reynard Prastya Savero<br>5023211042</p>", unsafe_allow_html=True)
     
         st.image("IMG_2104.JPEG", use_column_width=True, width=150)
