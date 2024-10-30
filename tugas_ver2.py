@@ -48,7 +48,7 @@ if 'threshold' not in st.session_state:
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra,"Machine Learning"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra","Machine Learning"], default_index=0)
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
