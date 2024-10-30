@@ -46,14 +46,14 @@ def process_image(image):
 # Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
+if 'uploaded_image' not in st.session_state:
+    st.session_state.uploaded_image = None
 if 'threshold' not in st.session_state:
     st.session_state.threshold = None
-# Fungsi tambahan atau variabel global yang diperlukan
-if 'df1' not in st.session_state:
-    st.session_state.df1 = None
+
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra","Machine Learning"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0)
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
@@ -353,24 +353,3 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Menampilkan DataFrame dalam Streamlit
             st.write("Tabel Properti Objek:")
             st.dataframe(df1)
-            
-if selected == "Machine Learning":
-    if 'df1' in st.session_state:
-        st.markdown("<h1 style='text-align: center; color: purple;'>Machine Learning - Clustering</h1>", unsafe_allow_html=True)
-        
-        # Normalisasi data
-        scaler = MinMaxScaler(feature_range=(0, 100))
-        df1 = st.session_state.df1.copy()
-        df1[['area', 'major_axis_length', 'minor_axis_length']] = scaler.fit_transform(
-            df1[['area', 'major_axis_length', 'minor_axis_length']]
-        )
-
-        # K-means clustering
-        kmeans = KMeans(n_clusters=4)
-        df1['cluster'] = kmeans.fit_predict(df1[['area', 'major_axis_length', 'minor_axis_length']])
-        
-        # Plot 3D hasil clustering
-        fig = px.scatter_3d(df1, x='area', y='major_axis_length', z='minor_axis_length',
-                            color='cluster', title="3D Plot After Clustering with K-Means",
-                            hover_name='label', color_continuous_scale='Viridis')
-        st.plotly_chart(fig)
