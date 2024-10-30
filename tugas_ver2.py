@@ -5,7 +5,8 @@ from skimage import color, img_as_ubyte, io
 import scipy.ndimage as ndi
 from streamlit_option_menu import option_menu
 import streamlit as st
-from PIL import Image
+from PIL import Image, ImageFilter
+
 
 
 def resize_and_sharpen_image(image_path, width, height):
