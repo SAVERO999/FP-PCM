@@ -101,7 +101,7 @@ elif selected == "Pemrosesan dan Analisis Citra":
         "",
         ["Open Data","Data & Graphic", "Filter","Method & Calculation"],
         index=0
-    )
+        )
         if selected1 == 'Open Data':
             st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
         
