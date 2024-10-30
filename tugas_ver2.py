@@ -35,22 +35,18 @@ with st.sidebar:
 
 
 if selected == "Home":
-    st.title('Anggota kelompok')
+    st.title('Project FP Kelompok 2')
+    st.subheader("Anggota kelompok")
     col1, col2 = st.columns(2)
-
+    
     with col1:
-        img1 = resize_image("IMG_2267.jpg", width=150, height=100)
-        st.image(img1, caption="Reynard Prastya Savero (5023211042)", use_column_width=True)
-        
-        img2 = resize_image("IMG_2104.JPEG", width=150, height=100)
-        st.image(img2, caption="Francisca Cindy Meilia Apsari (5023211021)", use_column_width=True)
-
+        st.image("IMG_2267.jpg", caption="Reynard Prastya Savero (5023211042)", width=150)
+        st.image("IMG_2104.JPEG", caption="Francisca Cindy Meilia Apsari (5023211021)", width=150)
+    
     with col2:
-        img3 = resize_image("file.png", width=150, height=100)
-        st.image(img3, caption="Mavelyn Clarissa Tania (5023211004)", use_column_width=True)
+        st.image("file.png", caption="Mavelyn Clarissa Tania (5023211004)", width=150)
+        st.image("IMG_20240410_113029.jpg", caption="Narika Shinta (5023211057)", width=150)
 
-        img4 = resize_image("IMG_20240410_113029.jpg", width=150, height=100)
-        st.image(img4, caption="Narika Shinta (5023211057)", use_column_width=True)
 
 
 # Konten untuk halaman "Encyclopedia"
