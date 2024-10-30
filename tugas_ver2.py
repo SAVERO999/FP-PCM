@@ -354,7 +354,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
             st.write("Tabel Properti Objek:")
             st.dataframe(df1)
             
-elif selected == "Machine Learning":
+if selected == "Machine Learning":
     if 'df1' in st.session_state:
         st.markdown("<h1 style='text-align: center; color: purple;'>Machine Learning - Clustering</h1>", unsafe_allow_html=True)
         
