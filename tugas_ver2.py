@@ -46,11 +46,11 @@ def process_image(image):
 # Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
-if 'uploaded_image' not in st.session_state:
-    st.session_state.uploaded_image = None
 if 'threshold' not in st.session_state:
-    st.session_state.threshold = None
-
+    st.session_state.threshold = Non
+# Fungsi tambahan atau variabel global yang diperlukan
+if 'df1' not in st.session_state:
+    st.session_state.df1 = None
 
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra","Machine Learning"], default_index=0)
