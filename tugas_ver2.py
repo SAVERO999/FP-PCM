@@ -7,14 +7,17 @@ from streamlit_option_menu import option_menu
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
+    # Memotong gambar asli untuk menampilkan hanya sebagian
+    img_cut = image[:, 0:580]
+    
     # Transformasi dari RGB ke Grayscale
-    img = color.rgb2gray(image)
-    img = img_as_ubyte(img)  # Convert tipe data ke uint8
+    img_gray = color.rgb2gray(img_cut)
+    img_gray = img_as_ubyte(img_gray)  # Convert tipe data ke uint8
     
     # Inisialisasi kernel atau weights
     weights = np.full((3, 3), 1/9)
     
-    return img, weights
+    return img_cut, img_gray, weights
 
 # Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
@@ -91,18 +94,18 @@ elif selected == "open data":
         st.session_state.uploaded_image = io.imread(uploaded_file)
 
         # Proses gambar: transformasi dari RGB ke grayscale, juga mengembalikan kernel
-        img_gray, weights = process_image(st.session_state.uploaded_image)
+        img_cut, img_gray, weights = process_image(st.session_state.uploaded_image)
         
-        # Menampilkan dua gambar: gambar asli dan hasil grayscale
-        st.markdown("<h3 style='text-align: center;'>Gambar Asli</h3>", unsafe_allow_html=True)
-        st.image(st.session_state.uploaded_image, caption="Gambar Asli", use_column_width=True)
-        st.write("Tipe gambar asli:", st.session_state.uploaded_image.dtype)
-        st.write("Ukuran gambar asli:", st.session_state.uploaded_image.shape)
+        # Menampilkan dua gambar yang dipotong: gambar asli dan hasil grayscale
+        st.markdown("<h3 style='text-align: center;'>Gambar Asli (Dipangkas)</h3>", unsafe_allow_html=True)
+        st.image(img_cut, caption="Gambar Asli Dipotong", use_column_width=True)
+        st.write("Tipe gambar asli (dipotong):", img_cut.dtype)
+        st.write("Ukuran gambar asli (dipotong):", img_cut.shape)
         
-        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale</h3>", unsafe_allow_html=True)
-        st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
-        st.write("Tipe gambar grayscale:", img_gray.dtype)
-        st.write("Ukuran gambar grayscale:", img_gray.shape)
+        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale (Dipangkas)</h3>", unsafe_allow_html=True)
+        st.image(img_gray, caption="Gambar Grayscale Dipotong", use_column_width=True, clamp=True)
+        st.write("Tipe gambar grayscale (dipotong):", img_gray.dtype)
+        st.write("Ukuran gambar grayscale (dipotong):", img_gray.shape)
 
 # Konten untuk halaman "histogram"
 elif selected == "histogram":
@@ -110,7 +113,7 @@ elif selected == "histogram":
 
     if st.session_state.uploaded_image is not None:
         # Menghitung histogram untuk gambar grayscale
-        img_gray, _ = process_image(st.session_state.uploaded_image)
+        img_cut, img_gray, _ = process_image(st.session_state.uploaded_image)
         
         histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
         
