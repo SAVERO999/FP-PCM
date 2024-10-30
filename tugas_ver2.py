@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from skimage import color, img_as_ubyte, io
 import scipy.ndimage as ndi
+from streamlit_option_menu import option_menu
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
