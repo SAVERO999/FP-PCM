@@ -21,6 +21,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from matplotlib.colors import ListedColormap
 from io import BytesIO
+from skimage.measure import regionprops_table
 
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
@@ -336,15 +337,18 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Membuat label image untuk analisis properti objek
             label_img = label(st.session_state.image_segmented)
             
-            # Mengambil properti objek menggunakan regionprops_table
+            # Mendapatkan properties termasuk area
             props = regionprops_table(label_img, properties=('centroid',
                                                              'orientation',
                                                              'major_axis_length',
-                                                             'minor_axis_length'))
+                                                             'minor_axis_length',
+                                                             'area'))
             
-            # Mengonversi properti objek ke DataFrame
+            # Membuat DataFrame
             df1 = pd.DataFrame(props)
             
+            # Menambahkan kolom label untuk setiap data
+            df1['label'] = ['Label #{}'.format(i + 1) for i in range(len(df1))]  # Labeling setiap baris data
             # Menampilkan DataFrame dalam Streamlit
             st.write("Tabel Properti Objek:")
             st.dataframe(df1)
