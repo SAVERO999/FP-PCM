@@ -4,7 +4,13 @@ import numpy as np
 from skimage import color, img_as_ubyte, io
 import scipy.ndimage as ndi
 from streamlit_option_menu import option_menu
+import streamlit as st
+from PIL import Image
 
+def resize_image(image_path, width, height):
+    img = Image.open(image_path)
+    img = img.resize((width, height))
+    return img
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
     # Memotong gambar asli untuk menampilkan hanya sebagian
@@ -26,19 +32,27 @@ if 'uploaded_image' not in st.session_state:
 with st.sidebar:
     selected = option_menu("FP", ["Home", "Encyclopedia", "open data", "histogram"], default_index=0, key="menu1")
 
-# Konten untuk halaman "Home"
+
+
 if selected == "Home":
     st.title('Project FP Kelompok 2')
     st.subheader("Anggota kelompok")
     col1, col2 = st.columns(2)
 
     with col1:
-        st.image("IMG_2267.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
-        st.image("IMG_2104.JPEG", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+        img1 = resize_image("IMG_2267.jpg", width=150, height=200)
+        st.image(img1, caption="Reynard Prastya Savero (5023211042)", use_column_width=True)
+        
+        img2 = resize_image("IMG_2104.JPEG", width=150, height=200)
+        st.image(img2, caption="Francisca Cindy Meilia Apsari (5023211021)", use_column_width=True)
 
     with col2:
-        st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=100)
-        st.image("IMG_20240410_113029.jpg", caption="\n Narika Shinta (5023211057)", use_column_width=True, width=150)
+        img3 = resize_image("file.png", width=150, height=200)
+        st.image(img3, caption="Mavelyn Clarissa Tania (5023211004)", use_column_width=True)
+
+        img4 = resize_image("IMG_20240410_113029.jpg", width=150, height=200)
+        st.image(img4, caption="Narika Shinta (5023211057)", use_column_width=True)
+
 
 # Konten untuk halaman "Encyclopedia"
 elif selected == "Encyclopedia":
