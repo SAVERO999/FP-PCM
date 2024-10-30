@@ -106,6 +106,7 @@ if selected == "Encyclopedia":
 
 
 
+
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
