@@ -37,7 +37,7 @@ if selected == "Home":
         st.image("IMG_2104.JPEG", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
 
     with col2:
-        st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
+        st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=100)
         st.image("IMG_20240410_113029.jpg", caption="\n Narika Shinta (5023211057)", use_column_width=True, width=150)
 
 # Konten untuk halaman "Encyclopedia"
