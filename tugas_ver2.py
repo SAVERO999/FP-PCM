@@ -1,19 +1,28 @@
-import streamlit as st
 import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 import numpy as np
-from skimage import color, img_as_ubyte, io
 import scipy.ndimage as ndi
-from streamlit_option_menu import option_menu
+from skimage import io, color, img_as_ubyte
+from skimage import exposure
+import ipywidgets as widgets
+from skimage import io, img_as_float
+from skimage import morphology
+from pandas import DataFrame
+from math import log10
+import seaborn as sns
+import plotly.express as px
+from skimage import filters, measure
+from skimage.measure import label, regionprops, regionprops_table
+from skimage.transform import rotate
+from skimage.draw import ellipse
+import math
+import pandas as pd
 import streamlit as st
-from PIL import Image, ImageFilter
+from streamlit_option_menu import option_menu
+from matplotlib.colors import ListedColormap
 
 
 
-def resize_and_sharpen_image(image_path, width, height):
-    image = Image.open(image_path)
-    resized_image = image.resize((width, height), Image.LANCZOS)
-    sharpened_image = resized_image.filter(ImageFilter.SHARPEN)
-    return sharpened_image
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
     # Memotong gambar asli untuk menampilkan hanya sebagian
@@ -31,9 +40,14 @@ def process_image(image):
 # Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
+if 'uploaded_image' not in st.session_state:
+    st.session_state.uploaded_image = None
+if 'threshold' not in st.session_state:
+    st.session_state.threshold = None
+
 
 with st.sidebar:
-    selected = option_menu("FP", ["Home", "Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0, key="menu1")
+    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0)
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
@@ -42,12 +56,11 @@ if selected == "Home":
 
     with col1:
         st.image("IMG_2267.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
-        st.image("Screenshot 2024-10-30 122841.png", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+        st.image("IMG_2104.jpeg", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
 
     with col2:
         st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
         st.image("IMG_20240410_113029.jpg", caption="\n Narika Shinta (5023211057)", use_column_width=True, width=150)
-
 
 
 if selected == "Encyclopedia":
@@ -92,49 +105,14 @@ if selected == "Encyclopedia":
                 st.markdown(content, unsafe_allow_html=True)
 
 
-
-if selected == 'Pemrosesan dan Analisis Citra':
+if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Information","Data & Graphic", "Filter","Method & Calculation"],
+        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling"],
         index=0
     )
-    if selected1 == 'Information':
-        st.title("Signal Processing")
-        new_title = '<p style="font-family:Georgia; color:blue; font-size: 20px; text-align:justify;">1.Bandpass Filter (IIR) Proses pertama adalah penerapan filter bandpass yang terdiri dari filter lowpass dan highpass. Filter ini berfungsi untuk menghilangkan noise dan komponen frekuensi yang tidak diinginkan dari sinyal ECG asli. Lowpass Filter berfungsi untuk menghilangkan komponen frekuensi tinggi. Sedangkan highpass Filter berfungsi untuk menghilangkan komponen frekuensi rendah.</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-        new_title = '<p style="font-family:Georgia; color:blue; font-size: 20px; text-align: justify;"> 2.Differentiator Setelah sinyal difilter, langkah berikutnya adalah proses diferensiasi. Differentiator digunakan untuk menekankan komponen frekuensi tinggi dalam sinyal, yang membantu menyoroti fitur-fitur penting seperti gelombang R dalam sinyal ECG..</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-        new_title = '<p style="font-family:Georgia; color:blue; font-size: 20px; text-align: justify;">3.Squaring Operation Setelah diferensiasi, sinyal kemudian dikuadratkan. Operasi pengkuadratan ini memperkuat amplitudo sinyal dan memastikan bahwa semua nilai menjadi positif. Hal ini membantu dalam proses deteksi berikutnya dengan memperjelas puncak-puncak dalam sinyal.</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-        new_title = '<p style="font-family:Georgia; color:blue; font-size: 20px; text-align: Justify;">4. Moving Average Filter Langkah terakhir adalah penerapan filter rata-rata bergerak. Filter ini menghaluskan sinyal dan membantu mengurangi noise yang tersisa setelah langkah-langkah sebelumnya. Filter rata-rata bergerak juga membantu dalam menyoroti tren utama dalam sinyal.</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-    elif selected1 == 'Data & Graphic':
-        st.title('Data & Graphic Input')
-        st.header("Data Input")
+    if selected1 == 'Open Data':
 
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-# Konten untuk halaman "Pemrosesan dan Analisis Citra"
-if selected == "Pemrose":
-    st.markdown("<h1 style='text-align: center; color: green;'>📂 Pemrosesan dan Analisis Citra</h1>", unsafe_allow_html=True)
-    
-    # Tambahkan opsi untuk memilih antara Open Data dan opsi lainnya
-    selected_option = st.sidebar.radio("Pilih Opsi", ["Open Data", "Opsi Lain"], index=0)
-
-    if selected_option == "Open Data":
         st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
 
         # Upload gambar
@@ -142,43 +120,257 @@ if selected == "Pemrose":
 
         if uploaded_file is not None:
             # Simpan file di session_state agar bisa diakses di bagian lain
-            st.session_state.uploaded_image = skio.imread(uploaded_file)
+            st.session_state.uploaded_image = io.imread(uploaded_file)
 
             # Proses gambar: transformasi dari RGB ke grayscale
             img_cut, img_gray, weights = process_image(st.session_state.uploaded_image)
 
-            # Menampilkan dua gambar yang dipotong: gambar asli dan hasil grayscale
-            st.markdown("<h3 style='text-align: center;'>Gambar Asli </h3>", unsafe_allow_html=True)
-            st.image(img_cut, caption="Gambar Asli", use_column_width=True)
-            st.write("Tipe gambar asli:", img_cut.dtype)
-            st.write("Ukuran gambar asli:", img_cut.shape)
+            # Menampilkan gambar asli dan grayscale berdampingan menggunakan dua kolom
+            col1, col2 = st.columns(2)
 
-            st.markdown("<h3 style='text-align: center;'>Gambar Grayscale </h3>", unsafe_allow_html=True)
-            st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
-            st.write("Tipe gambar grayscale:", img_gray.dtype)
-            st.write("Ukuran gambar grayscale:", img_gray.shape)
+            with col1:
+                st.markdown("<h3 style='text-align: center;'>Gambar Asli</h3>", unsafe_allow_html=True)
+                st.image(img_cut, caption="Gambar Asli", use_column_width=True)
+                st.write("Tipe gambar asli:", img_cut.dtype)
+                st.write("Ukuran gambar asli:", img_cut.shape)
 
-    elif selected_option == "Opsi Lain":
-        st.markdown("<h2 style='text-align: center;'>Opsi Lain yang Tersedia</h2>", unsafe_allow_html=True)
-        # Anda dapat menambahkan konten lain di sini sesuai kebutuhan
-        st.write("Ini adalah bagian untuk opsi lain yang dapat Anda tambahkan.")
+            with col2:
+                st.markdown("<h3 style='text-align: center;'>Gambar Grayscale</h3>", unsafe_allow_html=True)
+                st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
+                st.write("Tipe gambar grayscale:", img_gray.dtype)
+                st.write("Ukuran gambar grayscale:", img_gray.shape)
 
 
-# Konten untuk halaman "histogram"
-elif selected == "histogram":
-    st.markdown("<h1 style='text-align: center; color: blue;'>📊 Histogram</h1>", unsafe_allow_html=True)
+    elif selected1 == 'Graphic Histogram':
+        st.markdown("<h1 style='text-align: center; color: blue;'>📊 Histogram</h1>", unsafe_allow_html=True)
+        if st.session_state.uploaded_image is not None:
+            # Menghitung histogram untuk gambar grayscale
+            img_cut, img_gray, _ = process_image(st.session_state.uploaded_image)
+            histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
+            # Plot histogram
+            fig, ax = plt.subplots()
+            ax.plot(histogram)
+            ax.set_xlabel('Gray Value')
+            ax.set_ylabel('Number of Pixels')
+            ax.set_title('Histogram of Gray Values')
 
-    if st.session_state.uploaded_image is not None:
-        # Menghitung histogram untuk gambar grayscale
-        img_cut, img_gray, _ = process_image(st.session_state.uploaded_image)
+            st.pyplot(fig)  
+
+
+    elif selected1 == 'AHE & Otsu Tresholding':
+        st.markdown("<h1 style='text-align: center; color: purple;'>🔍 Adaptive Histogram Equalization (AHE) & Otsu Thresholding</h1>", unsafe_allow_html=True)
+
+        if st.session_state.uploaded_image is not None:
+            # Proses gambar dan konversi ke grayscale
+            _, img_gray, _ = process_image(st.session_state.uploaded_image)
+
+            # Adaptive Histogram Equalization (AHE)
+            img_hieq = exposure.equalize_adapthist(img_gray, clip_limit=0.9) * 255
+            img_hieq = img_hieq.astype('uint8')
+
+            # Median Filtering setelah AHE
+            median_filtered = filters.median(img_hieq, np.ones((7, 7)))
+
+            # Otsu Thresholding pada hasil Median Filtering
+            threshold = filters.threshold_otsu(median_filtered)
+            binary_image = median_filtered < threshold
+
+            # Plot Gambar dalam format 2x2
+            col1, col2 = st.columns(2)
+            with col1:
+                # Menampilkan hasil AHE
+                fig, ax = plt.subplots()
+                ax.imshow(img_hieq, cmap='gray')
+                ax.set_title("Hasil Adaptive Histogram Equalization (AHE)")
+                st.pyplot(fig)
+
+                # Menampilkan hasil Otsu Thresholding
+                fig, ax = plt.subplots()
+                ax.imshow(binary_image, cmap='gray')
+                ax.set_title("Hasil Otsu Thresholding pada Gambar Setelah Median Filtering")
+                st.pyplot(fig)
+
+            with col2:
+                # Menampilkan hasil Median Filtering
+                fig, ax = plt.subplots()
+                ax.imshow(median_filtered, cmap='gray')
+                ax.set_title("Hasil Median Filtering pada AHE")
+                st.pyplot(fig)
+
+                # Histogram Median Filtering
+                fig, ax = plt.subplots(figsize=(5,4))
+                histo_median = ndi.histogram(median_filtered, min=0, max=255, bins=256)
+                ax.plot(histo_median)
+                ax.set_xlabel("Gray Value")
+                ax.set_ylabel("Number of Pixels")
+                ax.set_title("Histogram Setelah Median Filtering")
+                st.pyplot(fig)
+
+                st.session_state.binary_image = binary_image
+    elif selected1 == 'Morphological Filtering':
+        st.markdown("<h1 style='text-align: center; color: teal;'>🔍 Morphological Filtering</h1>", unsafe_allow_html=True)
         
-        histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
-        
-        # Plot histogram
-        fig, ax = plt.subplots()
-        ax.plot(histogram)
-        ax.set_xlabel('Gray Value')
-        ax.set_ylabel('Number of Pixels')
-        ax.set_title('Histogram of Gray Values')
+        if 'binary_image' in st.session_state:
+            binary_image = st.session_state.binary_image
+            
+            # Remove small objects
+            only_large_blobs = morphology.remove_small_objects(binary_image, min_size=100)
+            
+            # Fill small holes
+            only_large = np.logical_not(morphology.remove_small_objects(
+                np.logical_not(only_large_blobs), 
+                min_size=100))
+            image_segmented = only_large
 
-        st.pyplot(fig)  # Menampilkan histogram di Streamlit
+            # Menyimpan hasil segmentasi untuk langkah berikutnya
+            st.session_state.image_segmented = image_segmented
+
+            # Menampilkan hasil dalam dua kolom
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                # Menampilkan hasil setelah menghilangkan objek kecil
+                fig, ax = plt.subplots()
+                ax.imshow(only_large_blobs, cmap='gray')
+                ax.set_title("Setelah Menghilangkan Objek Kecil")
+                st.pyplot(fig)
+            
+            with col2:
+                # Menampilkan hasil setelah mengisi lubang kecil
+                fig, ax = plt.subplots()
+                ax.imshow(image_segmented, cmap='gray')
+                ax.set_title("Setelah Mengisi Lubang Kecil")
+                st.pyplot(fig)
+
+    elif selected1 == 'Objek Labeling':
+        st.markdown("<h1 style='text-align: center; color: orange;'>🔍 Objek Labeling</h1>", unsafe_allow_html=True)
+
+        if 'image_segmented' in st.session_state and 'threshold' in st.session_state:
+            image_segmented = img_as_ubyte(st.session_state.image_segmented)
+            
+            # Membuat dua kolom untuk menampilkan gambar dalam format 2x2
+            col1, col2 = st.columns(2)
+            
+            # Gambar pertama: Hasil segmentasi dengan kontur threshold
+            with col1:
+                fig, ax = plt.subplots()
+                ax.imshow(image_segmented, cmap='gray')
+                ax.contour(image_segmented, [st.session_state.threshold])
+                ax.set_title("Segmented Image with Threshold Contour")
+                st.pyplot(fig)
+            
+            # Gambar kedua: Labeling objek dengan warna acak
+            lab_image = image_segmented
+            rand_cmap = ListedColormap(np.random.rand(256, 3))
+            labels, nlabels = ndi.label(lab_image)
+            labels_for_display = np.where(labels > 0, labels, np.nan)
+            
+            with col2:
+                fig, ax = plt.subplots()
+                ax.imshow(lab_image, cmap='gray')
+                ax.imshow(labels_for_display, cmap=rand_cmap)
+                ax.axis('off')
+                ax.set_title(f'Labeled Atopic Dermatitis ({nlabels})')
+                st.pyplot(fig)
+
+            # Menyaring objek yang terlalu kecil
+            boxes = ndi.find_objects(labels)
+            for label_ind, label_coords in enumerate(boxes):
+                if label_coords is None:
+                    continue
+                cell = lab_image[label_coords]
+                if np.product(cell.shape) < 1500: 
+                    lab_image = np.where(labels == label_ind + 1, 0, lab_image)
+
+            # Gambar ketiga: Subset dari objek yang terlabel, disusun secara 2x3
+            labels, nlabels = ndi.label(lab_image)
+            fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(15, 10))
+
+            # Menampilkan hingga maksimal 6 objek
+            available_objects = ndi.find_objects(labels)
+            for ii, obj_indices in enumerate(available_objects[:6]):  # Batas hingga maksimal 6 objek
+                row, col = divmod(ii, 3)  # Menentukan baris dan kolom untuk 2x3 grid
+                cell = image_segmented[obj_indices]
+                axes[row, col].imshow(cell, cmap='gray')
+                axes[row, col].axis('off')
+                axes[row, col].set_title(f'Label #{ii+1}\nSize: {cell.shape}')
+            
+            # Menampilkan subplot secara horizontal di luar kolom agar tidak terpotong
+            st.pyplot(fig)
+
+            # Gambar keempat: Visualisasi orientasi objek dan bounding box
+            label_img = label(lab_image)
+            regions = regionprops(label_img)
+            fig, ax = plt.subplots(figsize=(20, 5))
+            ax.imshow(lab_image, cmap=plt.cm.gray)
+            for props in regions:
+                y0, x0 = props.centroid
+                orientation = props.orientation
+                x1 = x0 + math.cos(orientation) * 0.5 * props.minor_axis_length
+                y1 = y0 - math.sin(orientation) * 0.5 * props.minor_axis_length
+                x2 = x0 - math.sin(orientation) * 0.5 * props.major_axis_length
+                y2 = y0 - math.cos(orientation) * 0.5 * props.major_axis_length
+
+                ax.plot((x0, x1), (y0, y1), '-r', linewidth=2.5)
+                ax.plot((x0, x2), (y0, y2), '-r', linewidth=2.5)
+                ax.plot(x0, y0, '.g', markersize=15)
+
+                minr, minc, maxr, maxc = props.bbox
+                bx = (minc, maxc, maxc, minc, minc)
+                by = (minr, minr, maxr, maxr, minr)
+                ax.plot(bx, by, '-b', linewidth=2.5)
+
+            st.pyplot(fig)
+
+
+
+
+
+
+
+
+
+        
+
+
+    
+    
+
+
+
+        
+    
+
+
+
+
+
+
+ 
+
+
+        
+        
+
+
+
+
+
+
+        
+
+
+
+
+
+        
+        
+    
+
+
+
+
+    
+
+
+         
