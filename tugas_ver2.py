@@ -1,4 +1,4 @@
-iimport matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import numpy as np
 import scipy.ndimage as ndi
