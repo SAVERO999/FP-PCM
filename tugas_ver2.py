@@ -47,7 +47,7 @@ def process_image(image):
 if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
 if 'threshold' not in st.session_state:
-    st.session_state.threshold = Non
+    st.session_state.threshold = None
 # Fungsi tambahan atau variabel global yang diperlukan
 if 'df1' not in st.session_state:
     st.session_state.df1 = None
