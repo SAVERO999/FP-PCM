@@ -20,7 +20,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from matplotlib.colors import ListedColormap
-
+from io import BytesIO
 
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
