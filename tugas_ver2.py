@@ -1,23 +1,9 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSpec
 import numpy as np
 import scipy.ndimage as ndi
 from skimage import io, color, img_as_ubyte
-from skimage import exposure
-import ipywidgets as widgets
-from skimage import io, img_as_float
-from skimage import morphology
-from pandas import DataFrame
-from math import log10
-from skimage import filters, measure
-from skimage.measure import label, regionprops, regionprops_table
-from skimage.transform import rotate
-from skimage.draw import ellipse
-import math
-import pandas as pd
-from skimage import color, img_as_ubyte, io
 from scipy.ndimage import convolve
 
 def process_image(image):
@@ -33,9 +19,9 @@ def process_image(image):
     
     return img, img_convolved
 
+# Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
-
 
 with st.sidebar:
     selected = option_menu("FP", ["Home", "Encyclopedia", "open data", "histogram"], default_index=0, key="menu1")
@@ -43,7 +29,8 @@ with st.sidebar:
 if selected == "Home":
     st.title('Project FP Kelompok 2')
     st.subheader("Anggota kelompok")
-    # Menampilkan 4 gambar di satu baris
+    
+    # Menampilkan anggota kelompok dengan gambar
     col1, col2 = st.columns(2)
     with col1:
         st.image("IMG_2267.jpg", use_column_width=True, width=150)
@@ -99,9 +86,7 @@ elif selected == "Encyclopedia":
                 """
                 st.markdown(content, unsafe_allow_html=True)
 
-
-
-if selected == "open data":
+elif selected == "open data":
     st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
 
     # Upload gambar
@@ -111,26 +96,33 @@ if selected == "open data":
         # Simpan file di session_state agar bisa diakses di bagian lain
         st.session_state.uploaded_image = io.imread(uploaded_file)
 
-        # Proses gambar: transformasi dari RGB ke grayscale, juga mengembalikan kernel
-        img_gray, weights = process_image(st.session_state.uploaded_image)
+        # Potong gambar asli dari kolom 0 hingga kolom 580
+        im1_cut = st.session_state.uploaded_image[:, 0:580]
+
+        # Proses gambar: transformasi dari RGB ke grayscale dan terapkan kernel
+        img_gray, img_convolved = process_image(im1_cut)
         
-        # Menampilkan dua gambar: gambar asli dan hasil grayscale
+        # Menampilkan gambar asli, potongan gambar, dan hasil grayscale dari potongan
         st.markdown("<h3 style='text-align: center;'>Gambar Asli</h3>", unsafe_allow_html=True)
         st.image(st.session_state.uploaded_image, caption="Gambar Asli", use_column_width=True)
         st.write("Tipe gambar asli:", st.session_state.uploaded_image.dtype)
         st.write("Ukuran gambar asli:", st.session_state.uploaded_image.shape)
+
+        st.markdown("<h3 style='text-align: center;'>Gambar Terpotong (0:580)</h3>", unsafe_allow_html=True)
+        st.image(im1_cut, caption="Gambar Terpotong", use_column_width=True)
+        st.write("Ukuran gambar terpotong:", im1_cut.shape)
         
-        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale</h3>", unsafe_allow_html=True)
-        st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
+        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale dari Potongan</h3>", unsafe_allow_html=True)
+        st.image(img_gray, caption="Gambar Grayscale dari Potongan", use_column_width=True, clamp=True)
         st.write("Tipe gambar grayscale:", img_gray.dtype)
         st.write("Ukuran gambar grayscale:", img_gray.shape)
 
-if selected == "histogram":
+elif selected == "histogram":
     st.markdown("<h1 style='text-align: center; color: blue;'>📊 Histogram</h1>", unsafe_allow_html=True)
 
     if st.session_state.uploaded_image is not None:
-        # Menghitung histogram untuk gambar grayscale
-        img_gray, _ = process_image(st.session_state.uploaded_image)
+        # Menghitung histogram untuk gambar grayscale dari potongan
+        img_gray, _ = process_image(st.session_state.uploaded_image[:, 0:580])
         histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
         
         # Plot histogram
@@ -138,5 +130,5 @@ if selected == "histogram":
         ax.plot(histogram)
         ax.set_xlabel('Gray Value')
         ax.set_ylabel('Number of Pixels')
-        ax.set_title('Histogram of Gray Values')
+        ax.set_title('Histogram of Gray Values (Potongan)')
         st.pyplot(fig)  # Menampilkan histogram di Streamlit
