@@ -110,7 +110,7 @@ if selected == "Encyclopedia":
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling"],
+        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling","Hasil Data"],
         index=0
     )
     if selected1 == 'Open Data':
@@ -328,6 +328,40 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
+    elif selected1 == 'Hasil Data':
+        st.markdown("<h1 style='text-align: center; color: green;'>📊 Hasil Data</h1>", unsafe_allow_html=True)
+    
+        if 'image_segmented' in st.session_state:
+            # Membuat label image untuk analisis properti objek
+            label_img = label(st.session_state.image_segmented)
+            
+            # Mengambil properti objek menggunakan regionprops_table
+            props = regionprops_table(label_img, properties=('centroid',
+                                                             'orientation',
+                                                             'major_axis_length',
+                                                             'minor_axis_length'))
+            
+            # Mengonversi properti objek ke DataFrame
+            df1 = pd.DataFrame(props)
+            
+            # Menyimpan DataFrame ke file Excel dalam bentuk BytesIO untuk download
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                df1.to_excel(writer, index=False, sheet_name='Data FP')
+                writer.save()
+            output.seek(0)
+    
+            # Menampilkan DataFrame di Streamlit
+            st.write("Tabel Properti Objek:")
+            st.dataframe(df1)
+    
+            # Tombol download
+            st.download_button(
+                label="Unduh Hasil Data sebagai Excel",
+                data=output,
+                file_name="Data_FP.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
 
 
