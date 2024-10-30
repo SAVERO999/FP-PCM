@@ -6,5 +6,5 @@ ipywidgets
 pandas
 scipy
 scikit-image
-
+seaborn
 
