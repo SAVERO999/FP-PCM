@@ -33,7 +33,7 @@ if 'uploaded_image' not in st.session_state:
     st.session_state.uploaded_image = None
 
 with st.sidebar:
-    selected = option_menu("FP", ["Home", "Encyclopedia", "open data", "histogram"], default_index=0, key="menu1")
+    selected = option_menu("FP", ["Home", "Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0, key="menu1")
 
 
 
