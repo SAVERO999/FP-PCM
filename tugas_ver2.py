@@ -35,8 +35,7 @@ with st.sidebar:
 
 
 if selected == "Home":
-    st.title('Project FP Kelompok 2')
-    st.subheader("Anggota kelompok")
+    st.title('Anggota kelompok')
     col1, col2 = st.columns(2)
 
     with col1:
