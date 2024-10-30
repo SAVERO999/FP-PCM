@@ -7,10 +7,7 @@ from streamlit_option_menu import option_menu
 import streamlit as st
 from PIL import Image
 
-def resize_image(image_path, width, height):
-    img = Image.open(image_path)
-    img = img.resize((width, height), Image.LANCZOS)  # Menggunakan LANCZOS untuk kualitas lebih baik
-    return img
+
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
     # Memotong gambar asli untuk menampilkan hanya sebagian
