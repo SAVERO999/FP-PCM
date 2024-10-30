@@ -99,9 +99,6 @@ if selected == "Encyclopedia":
 selected = st.sidebar.selectbox("Pilih Opsi", ["Pemrosesan dan Analisis Citra", "Opsi Lain"])
 
 if selected == "Pemrosesan dan Analisis Citra":
-    selected1 = st.sidebar.radio("Pilih Menu", ["Open Data", "Informasi"], index=0)
-
-    if selected1 == 'Open Data':
         st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
 
         # Upload gambar
