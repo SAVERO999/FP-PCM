@@ -7,17 +7,20 @@ from skimage import io, color, img_as_ubyte
 from scipy.ndimage import convolve
 
 def process_image(image):
+    # Potong gambar dari kolom 0 hingga kolom 580
+    img_cut = image[:, 0:580]
+    
     # Transformasi dari RGB ke Grayscale
-    img = color.rgb2gray(image)
-    img = img_as_ubyte(img)  # Convert tipe data ke uint8
+    img_gray = color.rgb2gray(img_cut)
+    img_gray = img_as_ubyte(img_gray)  # Convert tipe data ke uint8
     
     # Inisialisasi kernel atau weights (contoh kernel blur)
     weights = np.full((3, 3), 1/9)
     
     # Terapkan kernel ke gambar (convolve)
-    img_convolved = convolve(img, weights)
+    img_convolved = convolve(img_gray, weights)
     
-    return img, img_convolved
+    return img_cut, img_gray, img_convolved, weights
 
 # Inisialisasi variabel global untuk gambar
 if 'uploaded_image' not in st.session_state:
@@ -96,33 +99,24 @@ elif selected == "open data":
         # Simpan file di session_state agar bisa diakses di bagian lain
         st.session_state.uploaded_image = io.imread(uploaded_file)
 
-        # Potong gambar asli dari kolom 0 hingga kolom 580
-        im1_cut = st.session_state.uploaded_image[:, 0:580]
-
-        # Proses gambar: transformasi dari RGB ke grayscale dan terapkan kernel
-        img_gray, img_convolved = process_image(im1_cut)
+        # Proses gambar: potong, ubah ke grayscale, dan konvolusi
+        img_cut, img_gray, img_convolved, weights = process_image(st.session_state.uploaded_image)
         
-        # Menampilkan gambar asli, potongan gambar, dan hasil grayscale dari potongan
-        st.markdown("<h3 style='text-align: center;'>Gambar Asli</h3>", unsafe_allow_html=True)
-        st.image(st.session_state.uploaded_image, caption="Gambar Asli", use_column_width=True)
-        st.write("Tipe gambar asli:", st.session_state.uploaded_image.dtype)
-        st.write("Ukuran gambar asli:", st.session_state.uploaded_image.shape)
-
-        st.markdown("<h3 style='text-align: center;'>Gambar Terpotong (0:580)</h3>", unsafe_allow_html=True)
-        st.image(im1_cut, caption="Gambar Terpotong", use_column_width=True)
-        st.write("Ukuran gambar terpotong:", im1_cut.shape)
-        
-        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale dari Potongan</h3>", unsafe_allow_html=True)
-        st.image(img_gray, caption="Gambar Grayscale dari Potongan", use_column_width=True, clamp=True)
+        # Menampilkan gambar asli yang telah dipotong dan diubah menjadi grayscale
+        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale dari Gambar Terpotong (0:580)</h3>", unsafe_allow_html=True)
+        st.image(img_gray, caption="Gambar Grayscale setelah Pemotongan", use_column_width=True, clamp=True)
         st.write("Tipe gambar grayscale:", img_gray.dtype)
         st.write("Ukuran gambar grayscale:", img_gray.shape)
+        
+        # Menampilkan kernel yang digunakan
+        st.write("Kernel yang digunakan:", weights)
 
 elif selected == "histogram":
     st.markdown("<h1 style='text-align: center; color: blue;'>📊 Histogram</h1>", unsafe_allow_html=True)
 
     if st.session_state.uploaded_image is not None:
         # Menghitung histogram untuk gambar grayscale dari potongan
-        img_gray, _ = process_image(st.session_state.uploaded_image[:, 0:580])
+        _, img_gray, _, _ = process_image(st.session_state.uploaded_image)
         histogram = ndi.histogram(img_gray, min=0, max=255, bins=256)
         
         # Plot histogram
@@ -130,5 +124,5 @@ elif selected == "histogram":
         ax.plot(histogram)
         ax.set_xlabel('Gray Value')
         ax.set_ylabel('Number of Pixels')
-        ax.set_title('Histogram of Gray Values (Potongan)')
+        ax.set_title('Histogram of Gray Values (Gambar Terpotong)')
         st.pyplot(fig)  # Menampilkan histogram di Streamlit
