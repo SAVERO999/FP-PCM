@@ -351,7 +351,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Menambahkan kolom label untuk setiap data
             df1['label'] = ['Label #{}'.format(i + 1) for i in range(len(df1))]  # Labeling setiap baris data
             # Menampilkan DataFrame dalam Streamlit
-            st.write("Tabel Properti Objek:")
+            st.write("Hasil Tabel Perhitungan:")
             st.dataframe(df1)
 
 
@@ -375,8 +375,8 @@ if selected == "Machine Learning":
         # Menambahkan kolom label untuk setiap data
         df1['label'] = ['Label #{}'.format(i + 1) for i in range(len(df1))]
         
-        # Menampilkan DataFrame dalam Streamlit
-        st.write("Tabel Properti Objek:")
+
+  
         
         # Normalisasi data antara 0-100
         scaler = MinMaxScaler(feature_range=(0, 100))
