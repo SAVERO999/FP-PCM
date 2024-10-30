@@ -272,14 +272,17 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.axis('off')
                 ax.set_title(f'Labeled Atopic Dermatitis ({nlabels})')
                 st.pyplot(fig)
-
-            # Menyaring objek yang terlalu kecil
+          # Menyaring objek yang terlalu kecil
+# Menambahkan slider untuk menentukan ukuran minimal objek
+            min_size = st.slider("Set Minimum Object Size", min_value=500, max_value=5000, value=1500, step=100)
+            
+            # Menyaring objek yang terlalu kecil berdasarkan ukuran yang dipilih
             boxes = ndi.find_objects(labels)
             for label_ind, label_coords in enumerate(boxes):
                 if label_coords is None:
                     continue
                 cell = lab_image[label_coords]
-                if np.product(cell.shape) < 1500: 
+                if np.prod(cell.shape) < min_size:  # Menggunakan nilai dari slider
                     lab_image = np.where(labels == label_ind + 1, 0, lab_image)
 
             # Gambar ketiga: Subset dari objek yang terlabel, disusun secara 2x3
