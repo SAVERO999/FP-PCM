@@ -108,7 +108,7 @@ if selected == "Encyclopedia":
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling"],
+        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling","Hasil Data"],
         index=0
     )
     if selected1 == 'Open Data':
@@ -324,6 +324,29 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
+    elif selected1 == 'Hasil Data':
+
+        st.markdown("<h1 style='text-align: center; color: green;'>📊 Hasil Data</h1>", unsafe_allow_html=True)
+    
+        if 'image_segmented' in st.session_state:
+            # Membuat label image untuk analisis properti objek
+            label_img = label(st.session_state.image_segmented)
+            
+            # Mendapatkan properties termasuk area
+            props = regionprops_table(label_img, properties=('centroid',
+                                                             'orientation',
+                                                             'major_axis_length',
+                                                             'minor_axis_length',
+                                                             'area'))
+            
+            # Membuat DataFrame
+            df1 = pd.DataFrame(props)
+            
+            # Menambahkan kolom label untuk setiap data
+            df1['label'] = ['Label #{}'.format(i + 1) for i in range(len(df1))]  # Labeling setiap baris data
+            # Menampilkan DataFrame dalam Streamlit
+            st.write("Tabel Properti Objek:")
+            st.dataframe(df1)
 
 
 
