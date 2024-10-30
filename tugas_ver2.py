@@ -98,8 +98,14 @@ if selected == "Encyclopedia":
 # Konten untuk halaman "open data"
 
 
+# Konten untuk halaman "Pemrosesan dan Analisis Citra"
 if selected == "Pemrosesan dan Analisis Citra":
-        selected = st.sidebar.selectbox("Pilih Opsi", ["Pemrosesan dan Analisis Citra", "Opsi Lain"])
+    st.markdown("<h1 style='text-align: center; color: green;'>📂 Pemrosesan dan Analisis Citra</h1>", unsafe_allow_html=True)
+    
+    # Tambahkan opsi untuk memilih antara Open Data dan opsi lainnya
+    selected_option = st.sidebar.radio("Pilih Opsi", ["Open Data", "Opsi Lain"], index=0)
+
+    if selected_option == "Open Data":
         st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
 
         # Upload gambar
@@ -115,13 +121,19 @@ if selected == "Pemrosesan dan Analisis Citra":
             # Menampilkan dua gambar yang dipotong: gambar asli dan hasil grayscale
             st.markdown("<h3 style='text-align: center;'>Gambar Asli </h3>", unsafe_allow_html=True)
             st.image(img_cut, caption="Gambar Asli", use_column_width=True)
-            st.write("Tipe gambar asli :", img_cut.dtype)
+            st.write("Tipe gambar asli:", img_cut.dtype)
             st.write("Ukuran gambar asli:", img_cut.shape)
 
             st.markdown("<h3 style='text-align: center;'>Gambar Grayscale </h3>", unsafe_allow_html=True)
-            st.image(img_gray, caption="Gambar Grayscale ", use_column_width=True, clamp=True)
+            st.image(img_gray, caption="Gambar Grayscale", use_column_width=True, clamp=True)
             st.write("Tipe gambar grayscale:", img_gray.dtype)
             st.write("Ukuran gambar grayscale:", img_gray.shape)
+
+    elif selected_option == "Opsi Lain":
+        st.markdown("<h2 style='text-align: center;'>Opsi Lain yang Tersedia</h2>", unsafe_allow_html=True)
+        # Anda dapat menambahkan konten lain di sini sesuai kebutuhan
+        st.write("Ini adalah bagian untuk opsi lain yang dapat Anda tambahkan.")
+
 
 # Konten untuk halaman "histogram"
 elif selected == "histogram":
