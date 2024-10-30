@@ -281,7 +281,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 if label_coords is None:
                     continue
                 cell = lab_image[label_coords]
-                if np.product(cell.shape) < 1500: 
+                if np.prod(cell.shape) < 1500: 
                     lab_image = np.where(labels == label_ind + 1, 0, lab_image)
 
             # Gambar ketiga: Subset dari objek yang terlabel, disusun secara 2x3
