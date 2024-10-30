@@ -20,8 +20,14 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from matplotlib.colors import ListedColormap
-
-
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from skimage import io, color, img_as_ubyte, exposure, morphology, filters
+from skimage.measure import label, regionprops_table
+import plotly.express as px
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
 def process_image(image):
@@ -47,7 +53,7 @@ if 'threshold' not in st.session_state:
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra ","Machine Learning"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0)
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
@@ -347,7 +353,25 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Menampilkan DataFrame dalam Streamlit
             st.write("Tabel Properti Objek:")
             st.dataframe(df1)
-
+if selected == "Machine Learning":
+        st.markdown("<h1 style='text-align: center;'>📊 Machine Learning - K-Means Clustering</h1>", unsafe_allow_html=True)
+        
+        if 'area' in df1.columns:
+            # Normalisasi data antara 0-100
+            scaler = MinMaxScaler(feature_range=(0, 100))
+            df1[['area', 'major_axis_length', 'minor_axis_length']] = scaler.fit_transform(
+                df1[['area', 'major_axis_length', 'minor_axis_length']]
+            )
+    
+            # K-means clustering
+            kmeans = KMeans(n_clusters=4)  # Jumlah cluster dapat disesuaikan
+            df1['cluster'] = kmeans.fit_predict(df1[['area', 'major_axis_length', 'minor_axis_length']])
+    
+            # Plot 3D dengan label menggunakan Plotly
+            fig = px.scatter_3d(df1, x='area', y='major_axis_length', z='minor_axis_length',
+                                color='cluster', title="3D Plot After Clustering with K-Means",
+                                hover_name='label', color_continuous_scale='Viridis')
+            st.plotly_chart(fig)
 
 
 
