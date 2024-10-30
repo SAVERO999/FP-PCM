@@ -35,14 +35,15 @@ if selected == "Home":
     st.title('Project FP Kelompok 2')
     st.subheader("Anggota kelompok")
     col1, col2 = st.columns(2)
-    
+
     with col1:
-        st.image("IMG_2267.jpg", caption="Reynard Prastya Savero (5023211042)", width=150)
-        st.image("IMG_2104.JPEG", caption="Francisca Cindy Meilia Apsari (5023211021)", width=150)
-    
+        st.image("IMG_2267.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
+        st.image("IMG_2104.JPEG", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+
     with col2:
-        st.image("file.png", caption="Mavelyn Clarissa Tania (5023211004)", width=150)
-        st.image("IMG_20240410_113029.jpg", caption="Narika Shinta (5023211057)", width=150)
+        st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
+        st.image("IMG_20240410_113029.jpg", caption="\n Narika Shinta (5023211057)", use_column_width=True, width=150)
+
 
 
 
