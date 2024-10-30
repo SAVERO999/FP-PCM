@@ -372,6 +372,28 @@ if selected == "Machine Learning ":
                                     color='cluster', title="3D Plot After Clustering with K-Means",
                                     hover_name='label', color_continuous_scale='Viridis')
                 st.plotly_chart(fig)
+                
+if selected == "Machine Learning ":
+
+        st.markdown("<h1 style='text-align: center;'>📊 Machine Learning - K-Means Clustering</h1>", unsafe_allow_html=True)
+            
+            if 'area' in df1.columns:
+                # Normalisasi data antara 0-100
+                scaler = MinMaxScaler(feature_range=(0, 100))
+                df1[['area', 'major_axis_length', 'minor_axis_length']] = scaler.fit_transform(
+                    df1[['area', 'major_axis_length', 'minor_axis_length']]
+                )
+        
+                # K-means clustering
+                kmeans = KMeans(n_clusters=4)  # Jumlah cluster dapat disesuaikan
+                df1['cluster'] = kmeans.fit_predict(df1[['area', 'major_axis_length', 'minor_axis_length']])
+        
+                # Plot 3D dengan label menggunakan Plotly
+                fig = px.scatter_3d(df1, x='area', y='major_axis_length', z='minor_axis_length',
+                                    color='cluster', title="3D Plot After Clustering with K-Means",
+                                    hover_name='label', color_continuous_scale='Viridis')
+                st.plotly_chart(fig)
+                        
 
 
 
