@@ -97,15 +97,15 @@ elif selected == "open data":
         img_cut, img_gray, weights = process_image(st.session_state.uploaded_image)
         
         # Menampilkan dua gambar yang dipotong: gambar asli dan hasil grayscale
-        st.markdown("<h3 style='text-align: center;'>Gambar Asli (Dipangkas)</h3>", unsafe_allow_html=True)
-        st.image(img_cut, caption="Gambar Asli Dipotong", use_column_width=True)
-        st.write("Tipe gambar asli (dipotong):", img_cut.dtype)
-        st.write("Ukuran gambar asli (dipotong):", img_cut.shape)
+        st.markdown("<h3 style='text-align: center;'>Gambar Asli </h3>", unsafe_allow_html=True)
+        st.image(img_cut, caption="Gambar Asli", use_column_width=True)
+        st.write("Tipe gambar asli :", img_cut.dtype)
+        st.write("Ukuran gambar asli:", img_cut.shape)
         
         st.markdown("<h3 style='text-align: center;'>Gambar Grayscale (Dipangkas)</h3>", unsafe_allow_html=True)
-        st.image(img_gray, caption="Gambar Grayscale Dipotong", use_column_width=True, clamp=True)
-        st.write("Tipe gambar grayscale (dipotong):", img_gray.dtype)
-        st.write("Ukuran gambar grayscale (dipotong):", img_gray.shape)
+        st.image(img_gray, caption="Gambar Grayscale ", use_column_width=True, clamp=True)
+        st.write("Tipe gambar grayscale:", img_gray.dtype)
+        st.write("Ukuran gambar grayscale:", img_gray.shape)
 
 # Konten untuk halaman "histogram"
 elif selected == "histogram":
