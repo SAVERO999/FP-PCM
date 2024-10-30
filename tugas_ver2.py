@@ -115,7 +115,7 @@ elif selected == "open data":
         st.write("Tipe gambar asli :", img_cut.dtype)
         st.write("Ukuran gambar asli:", img_cut.shape)
         
-        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale (Dipangkas)</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>Gambar Grayscale </h3>", unsafe_allow_html=True)
         st.image(img_gray, caption="Gambar Grayscale ", use_column_width=True, clamp=True)
         st.write("Tipe gambar grayscale:", img_gray.dtype)
         st.write("Ukuran gambar grayscale:", img_gray.shape)
