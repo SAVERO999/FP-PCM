@@ -96,28 +96,30 @@ if selected == "Encyclopedia":
                 st.markdown(content, unsafe_allow_html=True)
 
 # Konten untuk halaman "open data"
+selected = st.sidebar.selectbox("Pilih Opsi", ["Pemrosesan dan Analisis Citra", "Opsi Lain"])
+
 if selected == "Pemrosesan dan Analisis Citra":
-    selected1 = st.sidebar.radio("", ["Open Data", "Informasi"], index=0)
-    
+    selected1 = st.sidebar.radio("Pilih Menu", ["Open Data", "Informasi"], index=0)
+
     if selected1 == 'Open Data':
         st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
-    
+
         # Upload gambar
         uploaded_file = st.file_uploader("Upload Gambar", type=["jpeg", "jpg", "png"])
-    
+
         if uploaded_file is not None:
             # Simpan file di session_state agar bisa diakses di bagian lain
-            st.session_state.uploaded_image = io.imread(uploaded_file)
-    
-            # Proses gambar: transformasi dari RGB ke grayscale, juga mengembalikan kernel
+            st.session_state.uploaded_image = skio.imread(uploaded_file)
+
+            # Proses gambar: transformasi dari RGB ke grayscale
             img_cut, img_gray, weights = process_image(st.session_state.uploaded_image)
-            
+
             # Menampilkan dua gambar yang dipotong: gambar asli dan hasil grayscale
             st.markdown("<h3 style='text-align: center;'>Gambar Asli </h3>", unsafe_allow_html=True)
             st.image(img_cut, caption="Gambar Asli", use_column_width=True)
             st.write("Tipe gambar asli :", img_cut.dtype)
             st.write("Ukuran gambar asli:", img_cut.shape)
-            
+
             st.markdown("<h3 style='text-align: center;'>Gambar Grayscale </h3>", unsafe_allow_html=True)
             st.image(img_gray, caption="Gambar Grayscale ", use_column_width=True, clamp=True)
             st.write("Tipe gambar grayscale:", img_gray.dtype)
