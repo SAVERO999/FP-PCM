@@ -96,7 +96,7 @@ if selected == "Encyclopedia":
                 st.markdown(content, unsafe_allow_html=True)
 
 # Konten untuk halaman "open data"
-elif selected == "Pemrosesan dan Analisis Citra":
+if selected == "Pemrosesan dan Analisis Citra":
     selected1 = st.sidebar.radio("", ["Open Data", "Informasi"], index=0)
     
     if selected1 == 'Open Data':
