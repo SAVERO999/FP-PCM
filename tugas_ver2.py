@@ -96,9 +96,10 @@ if selected == "Encyclopedia":
                 st.markdown(content, unsafe_allow_html=True)
 
 # Konten untuk halaman "open data"
-selected = st.sidebar.selectbox("Pilih Opsi", ["Pemrosesan dan Analisis Citra", "Opsi Lain"])
+
 
 if selected == "Pemrosesan dan Analisis Citra":
+        selected = st.sidebar.selectbox("Pilih Opsi", ["Pemrosesan dan Analisis Citra", "Opsi Lain"])
         st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
 
         # Upload gambar
