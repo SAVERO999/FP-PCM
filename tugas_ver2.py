@@ -20,8 +20,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from matplotlib.colors import ListedColormap
-from io import BytesIO
-from skimage.measure import regionprops_table
+
 
 
 # Fungsi untuk melakukan transformasi gambar dari RGB ke Grayscale dan inisialisasi kernel
@@ -48,7 +47,7 @@ if 'threshold' not in st.session_state:
 
 
 with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra"], default_index=0)
+    selected = option_menu("TUGAS 1", ["Home","Encyclopedia", "Pemrosesan dan Analisis Citra "], default_index=0)
 
 if selected == "Home":
     st.title('Project FP Kelompok 2')
@@ -57,7 +56,7 @@ if selected == "Home":
 
     with col1:
         st.image("IMG_2267.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
-        st.image("IMG_2104.JPEG", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+        st.image("IMG_2104.jpeg", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
 
     with col2:
         st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
@@ -101,17 +100,15 @@ if selected == "Encyclopedia":
         with col2:
             if st.button('Video', key="button4"):
                 content = """
-                <iframe id='Video 1' width='400' height='315' src='https://www.youtube.com/embed/fmurdUlmaIg' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+                <iframe id='Video 1' width='400' height='315' src='https://www.youtube.com/embed/XE7sX_gzlS0' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
                 """
                 st.markdown(content, unsafe_allow_html=True)
-
-
 
 
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling","Hasil Data"],
+        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling"],
         index=0
     )
     if selected1 == 'Open Data':
@@ -277,18 +274,13 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 st.pyplot(fig)
 
             # Menyaring objek yang terlalu kecil
-# Menambahkan slider untuk menentukan ukuran minimal objek
-            min_size = st.slider("Set Minimum Object Size", min_value=500, max_value=5000, value=1500, step=100)
-            
-            # Menyaring objek yang terlalu kecil berdasarkan ukuran yang dipilih
             boxes = ndi.find_objects(labels)
             for label_ind, label_coords in enumerate(boxes):
                 if label_coords is None:
                     continue
                 cell = lab_image[label_coords]
-                if np.prod(cell.shape) < min_size:  # Menggunakan nilai dari slider
+                if np.product(cell.shape) < 1500: 
                     lab_image = np.where(labels == label_ind + 1, 0, lab_image)
-
 
             # Gambar ketiga: Subset dari objek yang terlabel, disusun secara 2x3
             labels, nlabels = ndi.label(lab_image)
@@ -329,26 +321,58 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
-    elif selected1 == 'Hasil Data':
 
-        st.markdown("<h1 style='text-align: center; color: green;'>📊 Hasil Data</h1>", unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+        
+
+
     
-        if 'image_segmented' in st.session_state:
-            # Membuat label image untuk analisis properti objek
-            label_img = label(st.session_state.image_segmented)
-            
-            # Mendapatkan properties termasuk area
-            props = regionprops_table(label_img, properties=('centroid',
-                                                             'orientation',
-                                                             'major_axis_length',
-                                                             'minor_axis_length',
-                                                             'area'))
-            
-            # Membuat DataFrame
-            df1 = pd.DataFrame(props)
-            
-            # Menambahkan kolom label untuk setiap data
-            df1['label'] = ['Label #{}'.format(i + 1) for i in range(len(df1))]  # Labeling setiap baris data
-            # Menampilkan DataFrame dalam Streamlit
-            st.write("Tabel Properti Objek:")
-            st.dataframe(df1)
+    
+
+
+
+        
+    
+
+
+
+
+
+
+ 
+
+
+        
+        
+
+
+
+
+
+
+        
+
+
+
+
+
+        
+        
+    
+
+
+
+
+    
+
+
+         
