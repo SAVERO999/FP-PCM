@@ -56,7 +56,7 @@ if selected == "Home":
 
     with col1:
         st.image("IMG_2267.jpg", caption="\nReynard Prastya Savero (5023211042)", use_column_width=True, width=150)
-        st.image("IMG_2104.jpeg", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
+        st.image("IMG_2104.JPEG", caption="\nFrancisca Cindy Meilia Apsari (5023211021)", use_column_width=True, width=150)
 
     with col2:
         st.image("file.png", caption="\n Mavelyn Clarissa Tania (5023211004)", use_column_width=True, width=150)
