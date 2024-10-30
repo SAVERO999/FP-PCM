@@ -54,7 +54,7 @@ if selected == "Home":
 
 
 # Konten untuk halaman "Encyclopedia"
-elif selected == "Encyclopedia":
+if selected == "Encyclopedia":
     selected1 = st.sidebar.radio("", ["Penyakit", "Informasi"], index=0)
     
     if selected1 == 'Penyakit':
@@ -97,12 +97,9 @@ elif selected == "Encyclopedia":
 
 # Konten untuk halaman "open data"
 elif selected == "Pemrosesan dan Analisis Citra":
-        selected1 = st.sidebar.radio(
-        "",
-        ["Open Data","Data & Graphic", "Filter","Method & Calculation"],
-        index=0
-        )
-        if selected1 == 'Open Data':
+    selected2 = st.sidebar.radio("", ["Open Data, "Informasi"], index=0)
+    
+    if selected2 == 'Open Data':
             st.markdown("<h1 style='text-align: center; color: green;'>📂 Open Data</h1>", unsafe_allow_html=True)
         
             # Upload gambar
