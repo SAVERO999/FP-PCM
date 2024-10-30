@@ -100,9 +100,10 @@ if selected == "Encyclopedia":
         with col2:
             if st.button('Video', key="button4"):
                 content = """
-                <iframe id='Video 1' width='400' height='315' src='https://www.youtube.com/embed/XE7sX_gzlS0' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+                <iframe id='Video 1' width='400' height='315' src='https://www.youtube.com/embed/fmurdUlmaIg' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
                 """
                 st.markdown(content, unsafe_allow_html=True)
+
 
 
 if selected == "Pemrosesan dan Analisis Citra ":
