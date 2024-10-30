@@ -377,7 +377,6 @@ if selected == "Machine Learning":
         
         # Menampilkan DataFrame dalam Streamlit
         st.write("Tabel Properti Objek:")
-        st.dataframe(df1)
         
         # Normalisasi data antara 0-100
         scaler = MinMaxScaler(feature_range=(0, 100))
