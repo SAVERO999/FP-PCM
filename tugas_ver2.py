@@ -113,7 +113,7 @@ if selected == "Encyclopedia":
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Masking","Objek Labeling,"Hasil Data"],
+         ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Masking","Objek Labeling","Hasil Data"],
         index=0
     )
     if selected1 == 'Open Data':
