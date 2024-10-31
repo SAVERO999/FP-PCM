@@ -331,6 +331,23 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
+    elif selected == "Masking":
+        st.markdown("<h1 style='text-align: center; color: teal;'>🔍 Masking</h1>", unsafe_allow_html=True)
+        
+        if 'image_segmented' in st.session_state and 'img_hieq' in st.session_state:
+            # Melakukan masking pada objek yang memiliki nilai lebih besar atau sama dengan threshold
+            mask_bone = st.session_state.image_segmented >= 100
+            mask_bone = mask_bone * 1  # Konversi ke binary (0 atau 1)
+            im_bone = np.where(mask_bone, st.session_state.img_hieq, 0)  # Terapkan masking
+
+            # Plot hasil masking
+            fig, axes = plt.subplots(1, 2, figsize=(10, 10))
+            axes[0].imshow(mask_bone, cmap='gray')
+            axes[0].set_title("Masking Bone")
+            axes[1].imshow(im_bone, cmap='gray')
+            axes[1].set_title("Gambar dengan Masking")
+            st.pyplot(fig)
+        
     elif selected1 == 'Hasil Data':
 
         st.markdown("<h1 style='text-align: center; color: green;'>📊 Hasil Data</h1>", unsafe_allow_html=True)
@@ -355,24 +372,8 @@ if selected == "Pemrosesan dan Analisis Citra ":
             st.write("Hasil Tabel Perhitungan:")
             st.dataframe(df1)
             
-    elif selected == "Masking":
-        st.markdown("<h1 style='text-align: center; color: purple;'>🔍 Masking</h1>", unsafe_allow_html=True)
-        if st.session_state.image_segmented is not None and st.session_state.binary_image is not None:
-            img_hieq = exposure.equalize_adapthist(st.session_state.binary_image, clip_limit=0.9) * 255
-            img_hieq = img_hieq.astype('uint8')
-            
-            mask_bone = st.session_state.image_segmented >= 100
-            mask_bone = mask_bone * 1
-            im_bone = np.where(mask_bone, img_hieq, 0)
-            
-            fig, axes = plt.subplots(1, 2, figsize=(10, 10))
-            axes[0].imshow(mask_bone, cmap='gray')
-            axes[0].set_title("Mask Gambar")
-            axes[1].imshow(im_bone, cmap='gray')
-            axes[1].set_title("Hasil Masking pada Gambar")
-            st.pyplot(fig)
-        else:
-            st.warning("Silakan unggah dan proses gambar terlebih dahulu di bagian 'Open Data'.")
+
+        
 
 if selected == "Machine Learning":
     st.markdown("<h1 style='text-align: center; color: green;'>🔍 Machine Learning - K-Means Clustering</h1>", unsafe_allow_html=True)
