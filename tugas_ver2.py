@@ -113,7 +113,7 @@ if selected == "Encyclopedia":
 if selected == "Pemrosesan dan Analisis Citra ":
     selected1 = st.sidebar.radio(
         "",
-        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Objek Labeling","Masking","Hasil Data"],
+        ["Open Data","Graphic Histogram","AHE & Otsu Tresholding","Morphological Filtering","Masking","Objek Labeling,"Hasil Data"],
         index=0
     )
     if selected1 == 'Open Data':
@@ -172,7 +172,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Adaptive Histogram Equalization (AHE)
             img_hieq = exposure.equalize_adapthist(img_gray, clip_limit=0.9) * 255
             img_hieq = img_hieq.astype('uint8')
-
+            st.session_state.img_hieq = img_hieq
             # Median Filtering setelah AHE
             median_filtered = filters.median(img_hieq, np.ones((7, 7)))
 
@@ -246,7 +246,25 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.imshow(image_segmented, cmap='gray')
                 ax.set_title("Setelah Mengisi Lubang Kecil")
                 st.pyplot(fig)
+    elif selected1 == 'Masking':
+        st.markdown("<h1 style='text-align: center; color: teal;'>🔍 Masking</h1>", unsafe_allow_html=True)
+        
+        if st.session_state.image_segmented is not None and st.session_state.img_hieq is not None:
+            # Buat mask untuk nilai di atas threshold
+            mask_bone = st.session_state.image_segmented >= 100
+            im_bone = np.where(mask_bone, st.session_state.img_hieq, 0)
 
+            # Plot hasil masking
+            fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+            axes[0].imshow(mask_bone, cmap='gray')
+            axes[0].set_title("Masking Bone")
+            axes[0].axis('off')
+
+            axes[1].imshow(im_bone, cmap='gray')
+            axes[1].set_title("Gambar dengan Masking")
+            axes[1].axis('off')
+
+            st.pyplot(fig)
     elif selected1 == 'Objek Labeling':
         st.markdown("<h1 style='text-align: center; color: orange;'>🔍 Objek Labeling</h1>", unsafe_allow_html=True)
 
@@ -329,25 +347,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
-    elif selected1 == 'Masking':
-        st.markdown("<h1 style='text-align: center; color: teal;'>🔍 Masking</h1>", unsafe_allow_html=True)
-        
-        if st.session_state.image_segmented is not None and st.session_state.img_hieq is not None:
-            # Buat mask untuk nilai di atas threshold
-            mask_bone = st.session_state.image_segmented >= 100
-            im_bone = np.where(mask_bone, st.session_state.img_hieq, 0)
 
-            # Plot hasil masking
-            fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-            axes[0].imshow(mask_bone, cmap='gray')
-            axes[0].set_title("Masking Bone")
-            axes[0].axis('off')
-
-            axes[1].imshow(im_bone, cmap='gray')
-            axes[1].set_title("Gambar dengan Masking")
-            axes[1].axis('off')
-
-            st.pyplot(fig)
         
     elif selected1 == 'Hasil Data':
 
