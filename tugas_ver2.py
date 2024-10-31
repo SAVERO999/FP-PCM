@@ -331,7 +331,7 @@ if selected == "Pemrosesan dan Analisis Citra ":
                 ax.plot(bx, by, '-b', linewidth=2.5)
 
             st.pyplot(fig)
-    elif selected == "Masking":
+    elif selected == 'Masking':
         st.markdown("<h1 style='text-align: center; color: teal;'>🔍 Masking</h1>", unsafe_allow_html=True)
         
         if 'image_segmented' in st.session_state and 'img_hieq' in st.session_state:
