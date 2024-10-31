@@ -353,7 +353,34 @@ if selected == "Pemrosesan dan Analisis Citra ":
             # Menampilkan DataFrame dalam Streamlit
             st.write("Hasil Tabel Perhitungan:")
             st.dataframe(df1)
+            
+if selected == "Masking":
+    st.markdown("<h1 style='text-align: center; color: purple;'>🔍 Masking</h1>", unsafe_allow_html=True)
+    
+    if 'image_segmented' in st.session_state and 'binary_image' in st.session_state:
+        # Menggunakan hasil segmentasi dan hasil AHE dari session_state
+        image_segmented = st.session_state.image_segmented
+        img_hieq = exposure.equalize_adapthist(st.session_state.binary_image, clip_limit=0.9) * 255
+        img_hieq = img_hieq.astype('uint8')
 
+        # Menambahkan slider untuk memilih nilai threshold
+        threshold_value = st.slider("Pilih nilai threshold untuk masking", min_value=0, max_value=255, value=100, step=1)
+        
+        # Membuat mask berdasarkan nilai threshold dari slider
+        mask_bone = image_segmented >= threshold_value
+        mask_bone = mask_bone * 1  # Konversi mask ke nilai biner (0 dan 1)
+        
+        # Mengaplikasikan mask pada gambar equalized
+        im_bone = np.where(mask_bone, img_hieq, 0)
+        
+        # Menampilkan hasil masking
+        fig, axes = plt.subplots(1, 2, figsize=(10, 10))
+        axes[0].imshow(mask_bone, cmap='gray')
+        axes[0].set_title("Mask Gambar")
+        axes[1].imshow(im_bone, cmap='gray')
+        axes[1].set_title("Hasil Masking pada Gambar")
+        
+        st.pyplot(fig)
 
 if selected == "Machine Learning":
     st.markdown("<h1 style='text-align: center; color: green;'>🔍 Machine Learning - K-Means Clustering</h1>", unsafe_allow_html=True)
@@ -390,31 +417,5 @@ if selected == "Machine Learning":
                             hover_name='label', color_continuous_scale='Viridis')
         st.plotly_chart(fig)
 
-if selected == "Masking":
-    st.markdown("<h1 style='text-align: center; color: purple;'>🔍 Masking</h1>", unsafe_allow_html=True)
-    
-    if 'image_segmented' in st.session_state and 'binary_image' in st.session_state:
-        # Menggunakan hasil segmentasi dan hasil AHE dari session_state
-        image_segmented = st.session_state.image_segmented
-        img_hieq = exposure.equalize_adapthist(st.session_state.binary_image, clip_limit=0.9) * 255
-        img_hieq = img_hieq.astype('uint8')
 
-        # Menambahkan slider untuk memilih nilai threshold
-        threshold_value = st.slider("Pilih nilai threshold untuk masking", min_value=0, max_value=255, value=100, step=1)
-        
-        # Membuat mask berdasarkan nilai threshold dari slider
-        mask_bone = image_segmented >= threshold_value
-        mask_bone = mask_bone * 1  # Konversi mask ke nilai biner (0 dan 1)
-        
-        # Mengaplikasikan mask pada gambar equalized
-        im_bone = np.where(mask_bone, img_hieq, 0)
-        
-        # Menampilkan hasil masking
-        fig, axes = plt.subplots(1, 2, figsize=(10, 10))
-        axes[0].imshow(mask_bone, cmap='gray')
-        axes[0].set_title("Mask Gambar")
-        axes[1].imshow(im_bone, cmap='gray')
-        axes[1].set_title("Hasil Masking pada Gambar")
-        
-        st.pyplot(fig)
     
