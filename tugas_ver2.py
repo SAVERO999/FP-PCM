@@ -363,11 +363,8 @@ if selected == "Masking":
         img_hieq = exposure.equalize_adapthist(st.session_state.binary_image, clip_limit=0.9) * 255
         img_hieq = img_hieq.astype('uint8')
 
-        # Menambahkan slider untuk memilih nilai threshold
-        threshold_value = st.slider("Pilih nilai threshold untuk masking", min_value=0, max_value=255, value=100, step=1)
-        
-        # Membuat mask berdasarkan nilai threshold dari slider
-        mask_bone = image_segmented >= threshold_value
+        # Membuat mask dengan threshold
+        mask_bone = image_segmented >= 100
         mask_bone = mask_bone * 1  # Konversi mask ke nilai biner (0 dan 1)
         
         # Mengaplikasikan mask pada gambar equalized
