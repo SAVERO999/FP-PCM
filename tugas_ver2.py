@@ -2,11 +2,9 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import numpy as np
 import scipy.ndimage as ndi
-from skimage import io, color, img_as_ubyte
 from skimage import exposure
 import ipywidgets as widgets
 from skimage import io, img_as_float
-from skimage import morphology
 from pandas import DataFrame
 from math import log10
 import seaborn as sns
