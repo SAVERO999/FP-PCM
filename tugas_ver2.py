@@ -20,12 +20,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from matplotlib.colors import ListedColormap
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 from skimage import io, color, img_as_ubyte, exposure, morphology, filters
-from skimage.measure import label, regionprops_table
-import plotly.express as px
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 
